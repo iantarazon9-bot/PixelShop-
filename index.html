@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PixelShop | Interstellar Gaming Store</title>
+    <style>
+        :root {
+            --bg-color: #03030c;
+            --card-bg: rgba(15, 23, 42, 0.65);
+            --primary: #00f2fe;
+            --secondary: #4facfe;
+            --accent: #bc47ff;
+            --text: #cbd5e1;
+            --text-light: #ffffff;
+        }
+
+        /* Fondo de Galaxia con Nebulosa Animada */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at 50% 50%, #11001c 0%, #030008 70%, #000000 100%);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Estrellas brillantes en el fondo */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: 
+                radial-gradient(rgba(255,255,255,0.8) 1px, transparent 2px),
+                radial-gradient(rgba(0,242,254,0.5) 2px, transparent 3px),
+                radial-gradient(rgba(188,71,255,0.4) 1.5px, transparent 2px);
+            background-size: 250px 250px, 400px 400px, 350px 350px;
+            background-position: 0 0, 40px 60px, 130px 200px;
+            z-index: -2;
+        }
+
+        /* Capa de destello cósmico */
+        .nebula-glow {
+            position: fixed;
+            top: -20%; left: -20%; width: 140%; height: 140%;
+            background: radial-gradient(circle, rgba(188,71,255,0.08) 0%, rgba(0,242,254,0.04) 50%, transparent 100%);
+            z-index: -1;
+            animation: cosmicPulse 10s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes cosmicPulse {
+            0% { transform: scale(1) translate(0, 0); }
+            100% { transform: scale(1.1) translate(2%, 3%); }
+        }
+
+        /* PANTALLA DE INICIO DE SESIÓN (CÓSMICA) */
+        #auth-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, #050515, #0d021f);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .auth-box {
+            background: rgba(20, 10, 35, 0.85);
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 35px rgba(0, 242, 254, 0.4);
+            border-radius: 20px;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .auth-box h2 {
+            color: var(--text-light);
+            margin-top: 0;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px var(--primary);
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .auth-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        /* EFECTO AGUJERO NEGRO (VÓRTICE ABSORBENTE) */
+        #black-hole-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: transparent;
+            z-index: 9000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .singularity {
+            width: 10px;
+            height: 10px;
+            background: #000;
+            border-radius: 50%;
+            box-shadow: 0 0 60px 40px #000, 0 0 100px 70px var(--accent), 0 0 180px 110px var(--primary);
+            transform: scale(0);
+            transition: transform 1.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+        }
+
+        /* Animación de succión para el contenido de la tienda */
+        .spaghettification {
+            animation: suckIn 1.5s ease-in-out forwards;
+        }
+
+        @keyframes suckIn {
+            0% { transform: scale(1) rotate(0deg); filter: blur(0px); opacity: 1; }
+            40% { filter: blur(4px); }
+            100% { transform: scale(0) rotate(720deg); filter: blur(20px); opacity: 0; }
+        }
+
+        /* Interfaz general de la tienda */
+        header {
+            background: linear-gradient(180deg, rgba(15, 5, 30, 0.8) 0%, transparent 100%);
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        header h1 {
+            color: var(--text-light);
+            margin: 0;
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(0, 242, 254, 0.5));
+        }
+
+        header p {
+            color: var(--primary);
+            margin: 10px 0 0 0;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            transition: all 0.5s ease;
+        }
+
+        .shop-intro {
+            background: var(--card-bg);
+            border: 1px solid rgba(188, 71, 255, 0.2);
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 40px;
+            text-align: center;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+        }
+
+        .categories-nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .category-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+            transition: transform 0.4s, box-shadow 0.4s, border-color 0.4s;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.03);
+            backdrop-filter: blur(6px);
+        }
+
+        .category-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 0 30px rgba(155, 81, 224, 0.4);
+            border-color: var(--primary);
+        }
+
+        .category-card-img {
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+            filter: brightness(0.85);
+            transition: filter 0.3s;
+        }
+
+        .category-card:hover .category-card-img {
+            filter: brightness(1.1);
+        }
+
+        .category-card-body {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .category-card-body h3 {
+            color: var(--text-light);
+            margin: 0 0 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .enter-cat-btn {
+            background: linear-gradient(45deg, var(--accent), var(--secondary));
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: bold;
+            display: inline-block;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+
+        /* Vista de Objetos */
+        .products-view {
+            display: none;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background: rgba(255,255,255,0.05);
+            color: var(--primary);
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 25px;
+            cursor: pointer;
+            border: 1px solid var(--primary);
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: var(--primary);
+            color: black;
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        .category-header-info {
+            background: linear-gradient(90deg, rgba(20,10,35,0.8), transparent);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid var(--accent);
+            margin-bottom: 30px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.03);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-title {
+            color: var(--text-light);
+            margin: 0 0 10px 0;
+        }
+
+        .card-price {
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+            color: #000;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            margin-top: auto;
+        }
+
+        .btn:hover {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: white;
+            box-shadow: 0 0 15px var(--accent);
+        }
+
+        .empty-message {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            border: 1px dashed #444;
+            border-radius: 10px;
+        }
+
+        /* Footer Estelar */
+        .web-rating-footer {
+            background: rgba(5, 2, 15, 0.9);
+            border-top: 2px solid var(--accent);
+            padding: 35px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .stars-display {
+            font-size: 2.2rem;
+            color: #ffca28;
+            margin-bottom: 5px;
+        }
+
+        .rate-web-btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: 0.3s;
+        }
+
+        .rate-web-btn:hover {
+            background: var(--primary);
+            color: black;
+        }
+
+        /* Panel Admin Oculto */
+        #admin-panel {
+            background: rgba(20, 10, 30, 0.95);
+            border: 2px dashed var(--primary);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 35px;
+            display: none;
+        }
+
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; color: #fff; }
+        .form-group input, .form-group select {
+            width: 100%; padding: 12px; background: #000; border: 1px solid var(--accent); color: #fff; border-radius: 6px; box-sizing: border-box;
+        }
+
+        .secret-trigger {
+            position: absolute; bottom: 5px; right: 5px; width: 25px; height: 25px; cursor: pointer; opacity: 0.1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="nebula-glow"></div>
+
+    <!-- PANTALLA DE AUTENTICACIÓN (LOGIN) -->
+    <div id="auth-screen">
+        <!-- Paso 1: Ingresar Email -->
+        <div class="auth-box" id="step-email">
+            <h2>Acceso Interestelar</h2>
+            <p style="margin-bottom: 25px;">Introduce tu correo electrónico para recibir tu pase cuántico de entrada.</p>
+            <input type="email" id="user-email" class="auth-input" placeholder="tu-correo@gmail.com">
+            <button class="btn" style="width: 100%;" onclick="enviarCodigoFalso()">Enviar Código</button>
+        </div>
+
+        <!-- Paso 2: Ingresar Código (Oculto al inicio) -->
+        <div class="auth-box" id="step-code" style="display: none;">
+            <h2>Verificación de Enlace</h2>
+            <p id="code-sent-msg" style="color: var(--primary); margin-bottom: 25px;"></p>
+            <input type="number" id="verification-code" class="auth-input" placeholder="000000">
+            <button class="btn" style="width: 100%;" onclick="verificarCodigo()">Ingresar a la Tienda</button>
+        </div>
+    </div>
+
+    <!-- EFECTO AGUJERO NEGRO -->
+    <div id="black-hole-overlay">
+        <div class="singularity" id="singularity-core"></div>
+    </div>
+
+    <!-- CONTENIDO GENERAL DE LA TIENDA -->
+    <div id="shop-content-wrapper">
+        <header>
+            <h1>PixelShop</h1>
+            <p>El arsenal definitivo para Gamers en el Espacio Profundo</p>
+            <div class="secret-trigger" onclick="checkAdminPassword()"></div>
+        </header>
+
+        <div class="container">
+
+            <!-- PANEL DE ADMINISTRACIÓN -->
+            <div id="admin-panel">
+                <h2 style="color: var(--primary); margin-top:0;">Panel Cuántico: Publicar Objeto</h2>
+                <div class="form-group">
+                    <label>Nombre del Objeto:</label>
+                    <input type="text" id="prod-name" placeholder="Ej. Control DualSense Cosmos">
+                </div>
+                <div class="form-group">
+                    <label>Precio ($):</label>
+                    <input type="number" id="prod-price" placeholder="Ej. 79.99">
+                </div>
+                <div class="form-group">
+                    <label>División / Categoría:</label>
+                    <select id="prod-category">
+                        <option value="controles">Controles</option>
+                        <option value="audifonos">Audífonos</option>
+                        <option value="teclados">Teclados</option>
+                        <option value="mouses">Mouses</option>
+                        <option value="videojuegos">Videojuegos</option>
+                        <option value="cables">Cables</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>URL de la Imagen:</label>
+                    <input type="text" id="prod-img" placeholder="https://enlace.com/foto.jpg">
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn" onclick="addProduct()">Publicar</button>
+                    <button class="btn" style="background:#444; color:#fff;" onclick="cerrarAdmin()">Cerrar</button>
+                </div>
+            </div>
+
+            <!-- VISTA PRINCIPAL -->
+            <div id="main-shop-view">
+                <div class="shop-intro">
+                    <h2 style="color:#fff; margin-top:0; letter-spacing:1px;">BIENVENIDOS AL CÚMULO PIXELSHOP</h2>
+                    <p>Explora nuestras 6 divisiones de equipamiento estelar. Compra periféricos optimizados para misiones competitivas de alto nivel.</p>
+                </div>
+
+                <div class="categories-nav-grid">
+                    <!-- 1. Controles -->
+                    <div class="category-card" onclick="triggerBlackHole('controles')">
+                        <img src="https://images.unsplash.com/photo-1600080972464-8e5f35f63d08?w=600" alt="Controles" class="category-card-img">
+                        <div class="category-card-body">
+                            <h3>Controles</h3>
+                            <p>Mandos profesionales con respuesta inmediata de comandos.</p>
+                            <span class="enter-cat-btn">Explorar</span>
+                        </div>
+                    </div>
+                    <!-- 2. Audífonos -->
+                    <div class="category-card" onclick="triggerBlackHole('audifonos')">
+                        <img src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=600" alt="Audífonos" class="category-card-img">
+                        <div class="category-card-body">
+                            <h3>Audífonos</h3>
+                            <p>Sistemas de audio espacial para rastrear frecuencias enemigas.</p>
+                            <span class="enter-cat-btn">Explorar</span>
+                        </div>
+                    </div>
+                    <!-- 3. Teclados -->
+                    <div class="category-card" onclick="triggerBlackHole('teclados')">
+                        <img src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=600" alt="Teclados" class="category-card-img">
+                        <div class="category-card-body">
+                            <h3>Teclados</h3>
+                            <p>Matrices mecánicas compactas con switches hiper rápidos.</p>
+                            <span class="enter-cat-btn">Explorar</span>
+                        </div>
+                    </div>
+                    <!-- 4. Mouses -->
+                    <div class="category-card" onclick="triggerBlackHole('mouses')">
+                        <img src="https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=600" alt="Mouses" class="category-card-img">
+                        <div class="category-card-body">
+                            <h3>Mouses</h3>
+                            <p>Sensores ópticos avanzados para un deslizamiento fluido.</p>
+                            <span class="enter-cat-btn">Explorar</span>
+                        </div>
+                    </div>
+                    <!-- 5. Videojuegos -->
+                    <div class="category-card" onclick="triggerBlackHole('videojuegos')">
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600" alt="Videojuegos" class="category-card-img">
+                        <div class="category-card-body">
+                            <h3>Videojuegos</h3>
+                            <p>Simulaciones y universos virtuales interactivos de última generación.</p>
+                            <span class="enter-cat-btn">Explorar</span>
+                        </div>
+                    </div>
+                    <!-- 6. Cables -->
+                    <div class="category-card" onclick="triggerBlackHole('cables')">
+                        <img src="https://images.unsplash.com/photo-1557855516-33b27364b5e7?w=600" alt="Cables" class="category-card-img">
+                        <div class="category-card-body">
+                            <h3>Cables</h3>
+                            <p>Conectores de alta fidelidad y transferencia de datos blindada.</p>
+                            <span class="enter-cat-btn">Explorar</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VISTA DE PRODUCTOS -->
+            <div id="products-view" class="products-view">
+                <a class="back-btn" onclick="triggerBlackHole('main')">← Regresar al Menú Galaxia</a>
+                <div class="category-header-info">
+                    <h2 id="current-cat-title" style="color: #fff; margin:0 0 5px 0; text-transform:uppercase;">Categoría</h2>
+                    <p id="current-cat-desc" styl
