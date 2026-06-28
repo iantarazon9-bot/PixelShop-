@@ -405,31 +405,28 @@
 
     <div class="nebula-glow"></div>
 
-    <!-- PANTALLA DE AUTENTICACIÓN (LOGIN) -->
     <div id="auth-screen">
-        <!-- Paso 1: Ingresar Email -->
         <div class="auth-box" id="step-email">
             <h2>Acceso Interestelar</h2>
             <p style="margin-bottom: 25px;">Introduce tu correo electrónico para recibir tu pase cuántico de entrada.</p>
+            <div id="code-sent-msg"></div>
             <input type="email" id="user-email" class="auth-input" placeholder="tu-correo@gmail.com">
             <button class="btn" style="width: 100%;" onclick="enviarCodigoFalso()">Enviar Código</button>
         </div>
 
-        <!-- Paso 2: Ingresar Código (Oculto al inicio) -->
         <div class="auth-box" id="step-code" style="display: none;">
             <h2>Verificación de Enlace</h2>
-            <p id="code-sent-msg" style="color: var(--primary); margin-bottom: 25px;"></p>
+            <div id="code-display-area"></div>
+            <p style="color: var(--primary); margin-bottom: 25px;">Ingresa el código que se generó arriba:</p>
             <input type="number" id="verification-code" class="auth-input" placeholder="000000">
             <button class="btn" style="width: 100%;" onclick="verificarCodigo()">Ingresar a la Tienda</button>
         </div>
     </div>
 
-    <!-- EFECTO AGUJERO NEGRO -->
     <div id="black-hole-overlay">
         <div class="singularity" id="singularity-core"></div>
     </div>
 
-    <!-- CONTENIDO GENERAL DE LA TIENDA -->
     <div id="shop-content-wrapper">
         <header>
             <h1>PixelShop</h1>
@@ -439,7 +436,6 @@
 
         <div class="container">
 
-            <!-- PANEL DE ADMINISTRACIÓN -->
             <div id="admin-panel">
                 <h2 style="color: var(--primary); margin-top:0;">Panel Cuántico: Publicar Objeto</h2>
                 <div class="form-group">
@@ -471,7 +467,6 @@
                 </div>
             </div>
 
-            <!-- VISTA PRINCIPAL -->
             <div id="main-shop-view">
                 <div class="shop-intro">
                     <h2 style="color:#fff; margin-top:0; letter-spacing:1px;">BIENVENIDOS AL CÚMULO PIXELSHOP</h2>
@@ -479,7 +474,6 @@
                 </div>
 
                 <div class="categories-nav-grid">
-                    <!-- 1. Controles -->
                     <div class="category-card" onclick="triggerBlackHole('controles')">
                         <img src="https://images.unsplash.com/photo-1600080972464-8e5f35f63d08?w=600" alt="Controles" class="category-card-img">
                         <div class="category-card-body">
@@ -488,7 +482,6 @@
                             <span class="enter-cat-btn">Explorar</span>
                         </div>
                     </div>
-                    <!-- 2. Audífonos -->
                     <div class="category-card" onclick="triggerBlackHole('audifonos')">
                         <img src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=600" alt="Audífonos" class="category-card-img">
                         <div class="category-card-body">
@@ -497,7 +490,6 @@
                             <span class="enter-cat-btn">Explorar</span>
                         </div>
                     </div>
-                    <!-- 3. Teclados -->
                     <div class="category-card" onclick="triggerBlackHole('teclados')">
                         <img src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=600" alt="Teclados" class="category-card-img">
                         <div class="category-card-body">
@@ -506,7 +498,6 @@
                             <span class="enter-cat-btn">Explorar</span>
                         </div>
                     </div>
-                    <!-- 4. Mouses -->
                     <div class="category-card" onclick="triggerBlackHole('mouses')">
                         <img src="https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=600" alt="Mouses" class="category-card-img">
                         <div class="category-card-body">
@@ -515,7 +506,6 @@
                             <span class="enter-cat-btn">Explorar</span>
                         </div>
                     </div>
-                    <!-- 5. Videojuegos -->
                     <div class="category-card" onclick="triggerBlackHole('videojuegos')">
                         <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600" alt="Videojuegos" class="category-card-img">
                         <div class="category-card-body">
@@ -524,7 +514,6 @@
                             <span class="enter-cat-btn">Explorar</span>
                         </div>
                     </div>
-                    <!-- 6. Cables -->
                     <div class="category-card" onclick="triggerBlackHole('cables')">
                         <img src="https://images.unsplash.com/photo-1557855516-33b27364b5e7?w=600" alt="Cables" class="category-card-img">
                         <div class="category-card-body">
@@ -536,9 +525,19 @@
                 </div>
             </div>
 
-            <!-- VISTA DE PRODUCTOS -->
             <div id="products-view" class="products-view">
                 <a class="back-btn" onclick="triggerBlackHole('main')">← Regresar al Menú Galaxia</a>
                 <div class="category-header-info">
                     <h2 id="current-cat-title" style="color: #fff; margin:0 0 5px 0; text-transform:uppercase;">Categoría</h2>
-                    <p id="current-cat-desc" styl
+                    <p id="current-cat-desc" style="margin:0; color: var(--primary);">Descripción...</p>
+                </div>
+                <div class="grid" id="products-grid"></div>
+            </div>
+
+        </div>
+
+        <div class="web-rating-footer">
+            <h3>Reputación en el Sector Estelar</h3>
+            <div class="stars-display" id="web-stars">★★★★★</div>
+            <div class="rating-number" id="web-rating-text">Cargando datos astronómicos...</div>
+            <button class="rate-web-btn" onclick="rat
